@@ -1,7 +1,7 @@
 [project]
 name = "gpt-graphic-design-evaluator"
 version = "0.1.0"
-description = "Add your description here"
+description = "A LangChain implementation of GPT-powered graphic design evaluation based on design principles."
 readme = "README.md"
 authors = [
     { name = "Shunsuke KITADA", email = "shunsuke.kitada.0831@gmail.com" },
