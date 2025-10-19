@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 
 DesignPrinciple = Literal["alignment", "overlap", "whitespace"]
 
-SYSTEM_PROMPT: Final[str] = """\
+DEFAULT_SYSTEM_PROMPT: Final[str] = """\
 You are an autonomous AI Assistant who aids designers by providing insightful, objective, and constructive critiques of graphic design projects. Your goals are: "Deliver comprehensive and unbiased evaluations of graphic designs based on the following design principles."
 
 Grade seriously. The range of scores is from 1 to 10. A flawless design can earn 10 points, a mediocre design can only earn 7 points, a design with obvious shortcomings can only earn 4 points, and a very poor design can only earn 1-2 points.
@@ -25,7 +25,7 @@ If the output is too long, it will be truncated. Only respond in JSON format, no
 }}"""
 
 
-ALIGNMENT_DESIGN_PRINCIPLE: Final[str] = """\
+DEFAULT_ALIGNMENT_DESIGN_PRINCIPLE: Final[str] = """\
 Correct alignment is an important aspect of design that has been modeled in other layout applications. Text and graphic elements are aligned on the page to indicate organizational structure and aesthetics.
 
 Please evaluate the alignment of the input graphic design considering the following points.
@@ -34,7 +34,7 @@ Please evaluate the alignment of the input graphic design considering the follow
 2. The elements that align at a glance but slight misalignment are penalized because it is visually displeasing.
 3. Larger alignment groups (i.e., aligned elements that are distant from each other) are preferred as they produce simpler designs with more unity between elements."""
 
-OVERLAP_DESIGN_PRINCIPLE: Final[str] = """\
+DEFAULT_OVERLAP_DESIGN_PRINCIPLE: Final[str] = """\
 Overlapping elements are common in many designs and absent from others.
 Less or proper overlapping might be considered aesthetically pleasing, but others are not.
 
@@ -44,7 +44,7 @@ Please consider the following points to evaluate the overlap.
 2. Hard-to-read text because of insufficient color contrast between a text and the background color is penalized.
 3. The graphic design that includes elements extending past the boundaries is also penalized."""
 
-WHITE_SPACE_DESIGN_PRINCIPLE: Final[str] = """\
+DEFAULT_WHITE_SPACE_DESIGN_PRINCIPLE: Final[str] = """\
 White space in graphic designs is fundamental for readability and aesthetics. Element distance is also closely related to the principle of proximity, as elements placed near each other may appear to be related. White space also influences the overall design style; many modern designs use significant white space. White space 'trapped' between elements can also be distracting. 
 
 Evaluate the white space considering the following points.
@@ -57,9 +57,9 @@ Evaluate the white space considering the following points.
 
 
 DESIGN_PRINCIPLES: Dict[DesignPrinciple, str] = {
-    "alignment": ALIGNMENT_DESIGN_PRINCIPLE,
-    "overlap": OVERLAP_DESIGN_PRINCIPLE,
-    "whitespace": WHITE_SPACE_DESIGN_PRINCIPLE,
+    "alignment": DEFAULT_ALIGNMENT_DESIGN_PRINCIPLE,
+    "overlap": DEFAULT_OVERLAP_DESIGN_PRINCIPLE,
+    "whitespace": DEFAULT_WHITE_SPACE_DESIGN_PRINCIPLE,
 }
 
 USER_PROMPT: Final[str] = """\
@@ -114,7 +114,7 @@ class GPTGraphicDesignEvaluator(object):
         Returns:
             EvaluationResult: The evaluation result containing the score and explanation.
         """
-        system_prompt_template = system_prompt_template or SYSTEM_PROMPT
+        system_prompt_template = system_prompt_template or DEFAULT_SYSTEM_PROMPT
 
         system_prompt = SystemMessagePromptTemplate.from_template(
             template=system_prompt_template,
@@ -153,6 +153,6 @@ class GPTGraphicDesignEvaluator(object):
         """
         return self.evaluate(
             image=image,
-            system_prompt_template=SYSTEM_PROMPT,
+            system_prompt_template=DEFAULT_SYSTEM_PROMPT,
             design_principle_prompt=DESIGN_PRINCIPLES[design_principle],
         )
