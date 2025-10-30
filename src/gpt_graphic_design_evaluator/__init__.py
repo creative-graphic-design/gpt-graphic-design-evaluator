@@ -1,6 +1,7 @@
-from .evaluator import DesignPrinciple, GPTGraphicDesignEvaluator
+from .evaluator import DesignPrinciple, EvaluationResult, GPTGraphicDesignEvaluator
 
 __all__ = [
     "DesignPrinciple",
+    "EvaluationResult",
     "GPTGraphicDesignEvaluator",
 ]
