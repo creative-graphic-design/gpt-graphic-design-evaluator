@@ -1,0 +1,40 @@
+from typing import Dict, Final, Literal
+
+DesignPrinciple = Literal["alignment", "overlap", "whitespace"]
+
+DEFAULT_ALIGNMENT_DESIGN_PRINCIPLE: Final[str] = """\
+Correct alignment is an important aspect of design that has been modeled in other layout applications. Text and graphic elements are aligned on the page to indicate organizational structure and aesthetics.
+
+Please evaluate the alignment of the input graphic design considering the following points.
+
+1. Alignment along with the horizontal and vertical direction is considered.
+2. The elements that align at a glance but slight misalignment are penalized because it is visually displeasing.
+3. Larger alignment groups (i.e., aligned elements that are distant from each other) are preferred as they produce simpler designs with more unity between elements."""
+
+DEFAULT_OVERLAP_DESIGN_PRINCIPLE: Final[str] = """\
+Overlapping elements are common in many designs and absent from others.
+Less or proper overlapping might be considered aesthetically pleasing, but others are not.
+
+Please consider the following points to evaluate the overlap.
+
+1. The three types of overlap, the overlap of elements on text, the overlap of text on graphics, and the overlap of graphics on other graphics, are considered.
+2. Hard-to-read text because of insufficient color contrast between a text and the background color is penalized.
+3. The graphic design that includes elements extending past the boundaries is also penalized."""
+
+DEFAULT_WHITE_SPACE_DESIGN_PRINCIPLE: Final[str] = """\
+White space in graphic designs is fundamental for readability and aesthetics. Element distance is also closely related to the principle of proximity, as elements placed near each other may appear to be related. White space also influences the overall design style; many modern designs use significant white space. White space 'trapped' between elements can also be distracting. 
+
+Evaluate the white space considering the following points.
+
+1.A large ratio of white space that is not covered by design elements (e.g., graphics and tests) is preferred.
+2. However, the graphic design with a too large region of empty white space on the image is undesirable.
+3. The greater the distance between each element is preferred.
+4. Uniformed vertical spacing of each text element is preferred.
+5. Wider border margins for each element are preferred."""
+
+
+DESIGN_PRINCIPLES: Dict[DesignPrinciple, str] = {
+    "alignment": DEFAULT_ALIGNMENT_DESIGN_PRINCIPLE,
+    "overlap": DEFAULT_OVERLAP_DESIGN_PRINCIPLE,
+    "whitespace": DEFAULT_WHITE_SPACE_DESIGN_PRINCIPLE,
+}
