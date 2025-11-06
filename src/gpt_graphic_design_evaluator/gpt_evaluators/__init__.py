@@ -1,8 +1,8 @@
-from .gpt_evaluators import (
+from .absolute_evaluator import (
     AbsoluteEvaluationResult,
-    DesignPrinciple,
     GPTGraphicDesignAbsoluteEvaluator,
 )
+from .prompts import DesignPrinciple
 
 __all__ = [
     "DesignPrinciple",
