@@ -1,7 +1,7 @@
 import base64
 import io
 from dataclasses import dataclass
-from typing import Dict, Final, Literal, Optional, cast
+from typing import Dict, Final, List, Literal, Optional, cast
 
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate
 from langchain_core.language_models import BaseChatModel
@@ -102,7 +102,8 @@ class GPTGraphicDesignEvaluator(object):
         image: Image.Image,
         design_principle_prompt: str,
         system_prompt_template: Optional[str] = None,
-    ) -> EvaluationResult:
+        num_return: int = 1,
+    ) -> List[EvaluationResult]:
         """Evaluate the graphic design image based on the given design principle.
 
         Args:
@@ -110,6 +111,7 @@ class GPTGraphicDesignEvaluator(object):
             design_principle_prompt (str): The design principle prompt to guide the evaluation.
             system_prompt_template (Optional[str], optional): The system prompt template.
                 If None, the default SYSTEM_PROMPT is used. Defaults to None.
+            num_return (int, optional): The number of evaluation results to return. Defaults to 1.
 
         Returns:
             EvaluationResult: The evaluation result containing the score and explanation.
@@ -137,16 +139,19 @@ class GPTGraphicDesignEvaluator(object):
             "design_principle": design_principle_prompt,
             "base64_image": self._image_to_base64(image),
         }
-        return cast(EvaluationResult, chain.invoke(input_data))
+        inputs = [input_data] * num_return
+
+        return cast(List[EvaluationResult], chain.batch(inputs))
 
     def __call__(
-        self, image: Image.Image, design_principle: DesignPrinciple
-    ) -> EvaluationResult:
+        self, image: Image.Image, design_principle: DesignPrinciple, num_return: int = 1
+    ) -> List[EvaluationResult]:
         """Evaluate the graphic design image based on the specified design principle.
 
         Args:
             image (Image.Image): The input graphic design image as a PIL Image.
             design_principle (DesignPrinciple): The design principle to evaluate.
+            num_return (int, optional): The number of evaluation results to return. Defaults to 1.
 
         Returns:
             EvaluationResult: The evaluation result containing the score and explanation.
@@ -155,4 +160,5 @@ class GPTGraphicDesignEvaluator(object):
             image=image,
             system_prompt_template=DEFAULT_SYSTEM_PROMPT,
             design_principle_prompt=DESIGN_PRINCIPLES[design_principle],
+            num_return=num_return,
         )
